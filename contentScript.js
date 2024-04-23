@@ -9,6 +9,14 @@
       newVideoLoaded();
     } else if (type === "PLAY") {
       youtubePlayer.currentTime = value;
+    } else if (type === "DELETE") {
+      currentVideoBookmarks = currentVideoBookmarks.filter(
+        (b) => b.time != value
+      );
+      chrome.storage.sync.set({
+        [currentVideo]: JSON.stringify(currentVideoBookmarks)
+      });
+      response(currentVideoBookmarks)
     }
   });
 
@@ -63,5 +71,5 @@
 const getTime = (t) => {
   var date = new Date(0);
   date.setSeconds(t);
-  return date.toISOString().substring(11, 8);
+  return date.toISOString().substring(11, 19);
 };
